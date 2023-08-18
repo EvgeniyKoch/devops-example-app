@@ -7,7 +7,7 @@ on:
 
 env:
   APP_IMAGE_NAME: kochetov/devops-example-app
-  CADDY_IMAGE_NAME: hexletcomponents/devops-example-caddy
+  CADDY_IMAGE_NAME: kochetov/devops-example-caddy
 
 jobs:
   docker:
