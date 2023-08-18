@@ -8,7 +8,7 @@
         name: devops-example
 
     - community.docker.docker_container:
-        name: app
+        name: app  # имя используется как домен
         # Обязатлеьно указываем тег, который хотим деплоить
         # Если образа на сервере нет, Ansible его автоматически скачает
         image: "kochetov/devops-example-app:{{ version }}"
@@ -18,10 +18,20 @@
         restart_policy: always
         # Запускаем если не запущен
         state: started
-        networks:
+        networks: # Добавляем контейнер в сеть
           - name: devops-example
-        # Делаем доступным снаружи
-        ports:
-          - 3000:3000
+        ports: # Больше не нужно выставлять наружу, потому что доступ идет через Caddy
+        # - 3000:3000
         env: # Настраиваем
           NODE_ENV: production
+
+    - community.docker.docker_container:
+        name: caddy # имя используется как домен
+        image: "kochetov/devops-example-caddy:{{ version }}"
+        restart_policy: always
+        state: started
+        networks: # Добавляем контейнер в сеть
+          - name: devops-example
+        ports:
+          - 80:80
+          - 443:443
